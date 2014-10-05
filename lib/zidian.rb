@@ -1,7 +1,6 @@
 module Zidian
   
   def self.find(expression)
-    $KCODE = 'UTF8' if RUBY_VERSION < "1.9.0"
     case expression.class.name
     when "Array"
       expression.collect{|e| find(e) }.flatten.uniq
@@ -59,7 +58,7 @@ module Zidian
       end
       @traditional = line.match(/^[^\s]+/)[0]
       @simplified = line.match(/\s[^\s]+/)[0].strip
-      @pinyin  = line.match(/\[.+?\]/)[0].gsub(/[\[\]]/,'')
+      @pinyin  = line.match(/\[.+?\]/)[0].gsub(/[\[\]]/,'') if line.match(/\[.+?\]/).present?
       @english = line.scan(/\/[^\/]+/).collect{|e| e.gsub(/[\/]/,'')}
     end
     
